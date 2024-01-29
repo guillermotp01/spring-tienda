@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Web</title>
+    <!-- Estilos -->
+    <link rel="stylesheet" href="/css/estilos.css">
+    <!-- Iconos -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <div th:replace="/navegacion :: navegacion"></div>
+
+
+    <main class="home">
+        <div class="text">
+            <h1>Agregar Producto</h1>    
+        </div>
+
+        <section class="text productos">
+
+            <div class="producto">
+                <h3>Polo Manga Corta</h3>
+
+                <div class="detalle-producto">
+                    <span>Código : A001</span>
+
+                    <span>Talla : 
+                        <select id="talla" name="talla">
+                            <option value="s">S</option>
+                            <option value="m">M</option>
+                            <option value="l">L</option>
+                            <option value="xl">XL</option>
+                        </select>
+                    </span>
+                
+                    <span>Color : Negro</span>
+                    
+                    <span>Stock : 13</span>
+
+                    <span>Precio : S/. 50</span>
+
+                    <span>Código de Barras: 1826237</span>
+
+                    <button>Modificar</button>
+                    <button>Eliminar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script src="/js/animaciones.js"></script>
+</body>
+</html>

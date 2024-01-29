@@ -1,0 +1,524 @@
+@import url('https://fonts.googleapis.com/css2?family=Arya:wght@400;700&family=Autour+One&family=Barlow:wght@300;400;600;700&family=Montserrat:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root{
+    --body-color: #E5E1DA;
+    --sidebar-color: #FBF9F1;
+    --primary-color: #B19470;
+    --primary-color-light:#E5E1DA;
+    --toogle-color: #DDDDDD;
+    --text-color: #707070;
+
+    --tran-03: all 0.2s ease;
+    --tran-04: all 0.3s ease;
+    --tran-05: all 0.4s ease;
+}
+
+body{
+    min-height: 100vh;
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+
+::selection{
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+body.dark{
+    --body-color: #18191A;
+    --sidebar-color: #242526;
+    --primary-color-light: #3A3B3C;
+    --toggle-color: #FFFFFF;
+    --text-color: #CCCCCC;
+}
+
+/* ==================  BARRA DE NAVEGACIION ================== */
+
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background: var(--sidebar-color);
+    transition: var(--tran-05);
+    z-index: 100;
+}
+
+.sidebar.close {
+    width: 88px;
+}
+
+.sidebar li {
+    height: 50px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.sidebar header .image,
+.sidebar .icon{
+    min-width: 60px;
+    border-radius: 6px;
+}
+
+.sidebar .icon{
+    min-width: 60px;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.sidebar .text, 
+.sidebar .icon{
+    color: var(--text-color);
+    transition: var(--tran-03);
+}
+
+.sidebar .text{
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+/* cuando está cerrado, no aparece el texto*/
+.sidebar.close .text{
+    opacity: 0;
+}
+
+
+.sidebar header{
+    position: relative;
+}
+
+.sidebar header .logo{
+    display: flex;
+    flex-direction: column;
+}
+
+/* lo que se encuentra en el header*/
+.name{
+    margin-top: 2px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.des{
+    font-size: 16px;
+    margin-top: -2px;
+    display: block;
+}
+
+.sidebar header .image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar header .image img{
+    width: 40px;
+    border-radius: 6px;
+}
+
+.sidebar header .toggle{
+    position: absolute;
+    top: 20%;
+    right: 0px;
+    height: 35px;
+    width: 35px;
+    background-color: var(--primary-color);
+    color: var(--sidebar-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    cursor: pointer;
+    transition: var(--tran-05);
+    border-radius: 6px;
+}
+
+body.dark .sidebar header .toggle{
+    color: var(--text-color);
+}
+
+.sidebar.close .toggle{
+    width: 100%;
+    top: 20%;
+    border-radius: 6px;
+}
+
+.sidebar .menu{
+    margin-top: 40px;
+}
+
+.sidebar li a{
+    list-style: none;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: var(--tran-03);
+}
+
+.sidebar li a:hover {
+    background-color: var(--primary-color);
+}
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+    color: var(--sidebar-color);
+}
+
+.sidebar .menu-bar{
+    height: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: scroll;
+}
+
+.menu-bar::-webkit-scrollbar{
+    display: none;
+}
+
+.sidebar .menu-bar .mode{
+    border-radius: 6px;
+    background-color: var(--primary-color-light);
+    position: relative;
+    transition: var(--tran-05);
+}
+
+.menu-bar .mode .sun-moon{
+    height: 50px;
+    width: 60px;
+}
+
+.mode .sun-moon i {
+    position: absolute;
+}
+
+.mode .sun-moon i.sun {
+    opacity: 0;
+}
+
+body.dark .mode .sun-moon i.sun {
+    opacity: 1;
+}
+
+body.dark .mode .sun-moon i.moon {
+    opacity: 0;
+}
+
+.menu-bar .bottom-content .toggle-switch {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.toggle-switch .switch {
+    position: relative;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--toogle-color);
+    transition: var(--tran-05);
+}
+
+.switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--sidebar-color);
+    transition: var(--tran-04);
+}
+
+body.dark .switch::before{
+    left: 20px;
+}
+
+
+/* ==================  INICIO ================== */
+.home {
+    position: absolute;
+    left: 78px;
+    height: 100vh;
+    width: calc(100% - 78px);
+    filter: blur(3px);
+    transition: filter var(--tran-05);
+}
+
+.home .text{
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 12px 60px;
+}
+
+.sidebar.close ~ .home {
+    left: 78px;
+    height: 100vh;
+    width: calc(100% - 78px);
+    filter: none;
+    transition: filter var(--tran-05);
+}
+
+body.dark .home .text{
+    color: var(--text-color);
+}
+
+/* ==================  DASHBOARD ================== */
+
+.valores {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-gap: 24px;
+    margin-top: 36px;
+}
+
+.home .text .valores li{
+    padding: 24px;
+    background-color: var(--sidebar-color);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    grid-gap: 24px;
+    cursor: pointer;
+}
+
+.info{
+    font-size: 17px;
+}
+
+main .bottom-data{
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+}
+
+main .bottom-data>div{
+    border-radius: 20px;
+    background: var(--sidebar-color);
+    padding: 24px;
+    overflow-x: auto;
+}
+
+main .bottom-data .header{
+    display: flex;
+    align-items: center;
+    grid-gap: 16px;
+    margin-bottom: 24px;
+}
+
+main .bottom-data .header h3{
+    margin-right: auto;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+main .bottom-data .header .bx{
+    cursor: pointer;
+}
+
+main .bottom-data .orders{
+    flex-grow: 1;
+    flex-basis: 500px;
+}
+
+main .bottom-data .orders table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+main .bottom-data .orders table th{
+    padding-bottom: 12px;
+    font-size: 16px;
+    text-align: left;
+    border-bottom: 1px solid gray;
+}
+
+main .bottom-data .orders table td{
+    padding: 16px 0;
+}
+
+main .bottom-data .orders table tbody tr{
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+
+main .bottom-data .reminders{
+    flex-grow: 1;
+    flex-basis: 300px;
+}
+
+main .bottom-data .reminders .task-list{
+    width: 100%;
+}
+
+main .bottom-data .reminders .task-list li{
+    width: 100%;
+    margin-bottom: 16px;
+    background: var(--sidebar-color);
+    padding: 14px 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+main .bottom-data .reminders .task-list li .task-title{
+    display: flex;
+    align-items: center;
+}
+
+main .bottom-data .reminders .task-list li .task-title p{
+    margin-left: 6px;
+}
+
+main .bottom-data .reminders .task-list li .bx{
+    cursor: pointer;  
+}
+
+main .bottom-data .reminders .task-list li.completed{
+    border-left: 10px solid var(--success);
+}
+
+main .bottom-data .reminders .task-list li.not-completed{
+    border-left: 10px solid var(--danger);
+}
+
+main .bottom-data .reminders .task-list li:last-child{
+    margin-bottom: 0;
+}
+
+
+/* ==================  INVENTARIO ================== */
+
+.productos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.producto{
+    background-color: var(--sidebar-color); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-size: 17px;
+    padding: 1rem;
+    margin: 10px;
+}
+
+.detalle-producto{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    background-color: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    padding: 5px 10px; 
+    font-size: 17px;
+    border-radius: 5px; 
+}
+
+button:hover {
+    background-color: #8b6e4b; 
+}
+
+
+body.dark .producto {
+    background-color: #3A3B3C;
+}
+
+body.dark button {
+    color: var(--sidebar-color);
+}
+
+.herramientas {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.detalle-producto select { 
+    margin-left: 2rem;
+    width: 50%; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    justify-content: end;
+    background-color: transparent;
+}
+
+.detalle-producto option { 
+    text-align: center;
+}
+
+
+
+/* ==================  AGREGAR PRODUCTOS ================== */
+
+
+/* ==================  LISTA DE VENTAS ================== */
+
+.lista .ventas{
+    background: var(--sidebar-color);
+    border-radius: 16px;
+    padding: 1rem;
+}
+
+.lista .ventas table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lista .ventas th{
+    border-bottom: 1px solid gray; 
+    font-size: 23px;
+}
+
+.lista .ventas td{
+    font-size: 20px;
+    padding: 16px 0;
+    text-align: center;   
+}
+
+.lista .ventas button{
+    color: var(--body-color);
+}

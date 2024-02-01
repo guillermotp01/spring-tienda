@@ -1,7 +1,7 @@
 package com.tienda.model;
 
 
-import com.tienda.records.CrearCredencial;
+import com.tienda.records.usuarios.CrearCredencial;
 import com.tienda.utils.PasswordHash256;
 import jakarta.persistence.*;
 import lombok.*;

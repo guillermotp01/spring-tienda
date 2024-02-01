@@ -1,4 +1,4 @@
-package com.tienda.records;
+package com.tienda.records.usuarios;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

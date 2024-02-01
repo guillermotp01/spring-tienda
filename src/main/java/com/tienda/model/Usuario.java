@@ -1,7 +1,7 @@
 package com.tienda.model;
 
 
-import com.tienda.records.CrearUsuario;
+import com.tienda.records.usuarios.CrearUsuario;
 import jakarta.persistence.*;
 import lombok.*;
 

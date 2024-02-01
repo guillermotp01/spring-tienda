@@ -1,65 +1,46 @@
 package com.tienda.model;
 
-public class Producto {
-	private Integer id;
-	private String nombre;
-	private String descripcion;
-	private String imagen;
-	private double precio;
-	private int cantidad;	
-	
-	public Producto() {
-	}
-	
-	public Producto(Integer id, String nombre, String descripcion, String imagen, double precio, int cantidad) {
-		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.imagen = imagen;
-		this.precio = precio;
-		this.cantidad = cantidad;
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public String getImagen() {
-		return imagen;
-	}
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
-	public double getPrecio() {
-		return precio;
-	}
-	public void setPrecio(double precio) {
-		this.precio = precio;
-	}
-	public int getCantidad() {
-		return cantidad;
-	}
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
+import com.tienda.records.productos.CrearExistenciaProducto;
+import com.tienda.records.productos.CrearProducto;
+import jakarta.persistence.*;
+import lombok.*;
 
-	@Override
-	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", imagen=" + imagen
-				+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
+import java.util.HashMap;
+import java.util.Map;
+
+@Entity
+@Table(name = "tb_productos")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "idProducto")
+@ToString
+public class Producto {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idProducto;
+
+	@Column(length = 200,nullable = false)
+	private String nombre;
+
+	@Column(length = 254,nullable = false)
+	private String descripcion;
+
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+	@MapKeyColumn(name = "nombreColor")
+	private Map<String, ExistenciaProducto> existenciasDisponibles;
+
+	public  Producto(CrearProducto datos){
+		this.nombre = datos.nombre();
+		this.descripcion = datos.descripcion();
+		this.existenciasDisponibles = new HashMap<>();
+
+		for (Map.Entry<String, CrearExistenciaProducto> lista: datos.existenciasDisponibles().entrySet()) {
+			String talla = lista.getKey();
+			CrearExistenciaProducto crearExistenciaProducto = lista.getValue();
+			ExistenciaProducto existenciaProducto = new ExistenciaProducto(crearExistenciaProducto);
+			existenciasDisponibles.put(talla,existenciaProducto);
+		}
 	}
 }

@@ -1,17 +1,26 @@
 package com.tienda.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.tienda.model.Credencial;
+import com.tienda.repositoris.CredencialRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/login")
 public class LoginController {
-    
-    @GetMapping
-    public String login() {
-        return "login/login";
+
+    @Autowired
+    private CredencialRepository credencialRepository;
+
+    @GetMapping("/credencial/{email}")
+    public void login(@PathVariable String email){
+        Credencial credencial = credencialRepository.getReferenceByEmail(email);
     }
+
+    /*@GetMapping
+    public String login(@Valid @RequestBody Credencial credencial) {
+        credencialRepository.findBy(credencial);
+    }*/
 }
 
 

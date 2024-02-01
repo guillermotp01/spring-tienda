@@ -1,7 +1,7 @@
 package com.tienda.controller;
 
 import com.tienda.model.Credencial;
-import com.tienda.records.CrearCredencial;
+import com.tienda.records.usuarios.CrearCredencial;
 import com.tienda.repositoris.CredencialRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

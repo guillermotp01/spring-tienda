@@ -3,6 +3,7 @@ package com.tienda.controller;
 import com.tienda.model.Credencial;
 import com.tienda.records.usuarios.CrearCredencial;
 import com.tienda.repositoris.CredencialRepository;
+import com.tienda.service.CredencialService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuariosCredencialController {
 
     @Autowired
-    private CredencialRepository credencialRepository;
-
+    private final CredencialService credencialService;
+    @Autowired
+    public UsuariosCredencialController(CredencialService credencialService){
+        this.credencialService = credencialService;
+    }
     @PostMapping("/crear-usuario-y-credencial")
     public void registrarUsuarioYCredencial(@Valid @RequestBody CrearCredencial datos){
-        this.credencialRepository.save(new Credencial(datos));
+        this.credencialService.registrarUsuarioYCredencial(datos);
     }
 }

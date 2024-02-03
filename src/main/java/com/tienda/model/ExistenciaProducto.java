@@ -31,7 +31,8 @@ public class ExistenciaProducto {
     @JoinColumn(name = "idProducto")
     private Producto producto;
 
-    public ExistenciaProducto(CrearExistenciaProducto data){
+    public ExistenciaProducto(CrearExistenciaProducto data,Producto producto){
+        this.producto = producto;
         this.nombreColor = data.nombreColor();
         this.cantidad = data.cantidad();
         this.precioUnitario = data.precioUnitario();

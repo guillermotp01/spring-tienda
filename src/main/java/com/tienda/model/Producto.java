@@ -2,6 +2,8 @@ package com.tienda.model;
 
 import com.tienda.records.productos.CrearExistenciaProducto;
 import com.tienda.records.productos.CrearProducto;
+import com.tienda.serviceImpl.ProductoServiceImpl;
+import com.tienda.utils.GenerarId;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +21,7 @@ import java.util.Map;
 public class Producto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idProducto;
+	private String idProducto;
 
 	@Column(length = 200,nullable = false)
 	private String nombre;
@@ -39,8 +41,9 @@ public class Producto {
 		for (Map.Entry<String, CrearExistenciaProducto> lista: datos.existenciasDisponibles().entrySet()) {
 			String talla = lista.getKey();
 			CrearExistenciaProducto crearExistenciaProducto = lista.getValue();
-			ExistenciaProducto existenciaProducto = new ExistenciaProducto(crearExistenciaProducto);
+			ExistenciaProducto existenciaProducto = new ExistenciaProducto(crearExistenciaProducto,this);
 			existenciasDisponibles.put(talla,existenciaProducto);
 		}
 	}
+
 }

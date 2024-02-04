@@ -31,4 +31,5 @@ public class ProductoController {
     public void registrarProducto(@Valid @RequestBody CrearProducto producto){
         productoService.registroProducto(producto);
     }
+
 }

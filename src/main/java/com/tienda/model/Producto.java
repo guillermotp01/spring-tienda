@@ -1,13 +1,13 @@
 package com.tienda.model;
 
-import com.tienda.records.productos.CrearExistenciaProducto;
 import com.tienda.records.productos.CrearProducto;
-import com.tienda.serviceImpl.ProductoServiceImpl;
-import com.tienda.utils.GenerarId;
+import com.tienda.records.productos.CrearTalla;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -21,6 +21,7 @@ import java.util.Map;
 public class Producto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_producto")
 	private String idProducto;
 
 	@Column(length = 200,nullable = false)
@@ -29,21 +30,20 @@ public class Producto {
 	@Column(length = 254,nullable = false)
 	private String descripcion;
 
-	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-	@MapKeyColumn(name = "nombreColor")
-	private Map<String, ExistenciaProducto> existenciasDisponibles;
+	@OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
+	private Map<String, Talla> tallas;
 
 	public  Producto(CrearProducto datos){
 		this.nombre = datos.nombre();
 		this.descripcion = datos.descripcion();
-		this.existenciasDisponibles = new HashMap<>();
+		this.tallas = new HashMap<>();
 
-		for (Map.Entry<String, CrearExistenciaProducto> lista: datos.existenciasDisponibles().entrySet()) {
-			String talla = lista.getKey();
-			CrearExistenciaProducto crearExistenciaProducto = lista.getValue();
-			ExistenciaProducto existenciaProducto = new ExistenciaProducto(crearExistenciaProducto,this);
-			existenciasDisponibles.put(talla,existenciaProducto);
+		for (Map.Entry<String, CrearTalla> elemento: datos.tallas().entrySet()) {
+			this.tallas.put(
+					elemento.getKey(),
+					new Talla(elemento.getValue(),
+					this)
+			);
 		}
 	}
-
 }

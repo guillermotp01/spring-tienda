@@ -9,7 +9,6 @@ public record CrearExistenciaProducto(
         @NotBlank String nombreColor,
         @NotNull Integer cantidad,
         @NotBlank BigDecimal precioUnitario)
-
 {
 
 

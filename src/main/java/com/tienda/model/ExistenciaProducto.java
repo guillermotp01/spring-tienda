@@ -12,27 +12,29 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "existencia_producto")
-@EqualsAndHashCode(of = {"producto", "nombreColor"})
+@Table(name = "tb_existencia_producto")
+@EqualsAndHashCode(of = {"talla", "nombre_color"})
 public class ExistenciaProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100,name = "nombre_color")
     private String nombreColor;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "cantidad")
     private Integer cantidad;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "precio_unitario")
     private BigDecimal precioUnitario;
 
     @ManyToOne
-    @JoinColumn(name = "idProducto")
-    private Producto producto;
+    @JoinColumn(name = "idTalla")
+    private Talla talla;
 
-    public ExistenciaProducto(CrearExistenciaProducto data,Producto producto){
-        this.producto = producto;
+
+    public ExistenciaProducto(CrearExistenciaProducto data,Talla talla){
+        this.talla = talla;
         this.nombreColor = data.nombreColor();
         this.cantidad = data.cantidad();
         this.precioUnitario = data.precioUnitario();

@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/producto")
 public class ProductoController {
 
@@ -22,6 +23,16 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
+    @GetMapping("/listarProductos")
+    public String listarProductos() {
+        return "/producto/listarProductos";
+    }
+
+    @GetMapping("/agregarProducto")
+    public String agregarProductos() {
+        return "/producto/agregarProducto";
+    }
+    
     @GetMapping("/listar-productos")
     public Page<ListarProductos> listarProductos(@PageableDefault(size = 10) Pageable pageable) {
         return this.productoService.listarProductos(pageable);

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" >
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Web</title>
+    <!--Estilos-->
+    <link rel="stylesheet" href="/css/estilos.css">
+    <!--Iconos-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+	<div th:replace="~{/navegacion :: navegacion}"></div>
+
+    <main class="home">
+            
+        <div class="text">
+            <h1>Usuarios</h1>    
+        </div>
+
+        <div class="text herramientas">
+            <div>
+                <i class='bx bx-filter icon'></i>
+                <span>Filtrar</span>
+            </div>
+
+            <div>
+                <span>Buscar...</span>
+                <i class='bx bx-search icon' ></i>
+            </div>
+        </div>
+
+        <section class="text productos">
+            <div th:each="usuario : ${usuarios}" class="producto">
+                <h3 th:text="'Id Usuario: ' + ${usuario.idUsuario}"></h3>
+                <h3 th:text="'Nombre: ' + ${usuario.nombre}"></h3>
+                <h3 th:text="'Correo: ' + ${usuario.correo}"></h3>
+                <h3 th:text="'Password: ' + ${usuario.password}"></h3>
+                <button>Modificar</button>
+                <button>Eliminar</button>
+            </div>
+            <div th:if="${#lists.isEmpty(usuarios)}">
+                <p>No hay usuarios disponibles.</p>
+            </div>
+        </section>
+        
+    </main>
+
+    <script src="/js/animaciones.js"></script>
+</body>
+</html>

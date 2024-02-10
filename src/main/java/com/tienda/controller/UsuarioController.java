@@ -20,7 +20,7 @@ import org.springframework.ui.Model;
 import com.tienda.model.dto.UsuarioDto;
 import com.tienda.model.entity.Usuario;
 import com.tienda.model.payload.mensajeResponse;
-import com.tienda.service.IUsuarioService;
+import com.tienda.serviceInterface.IUsuarioService;
 
 @Controller
 @RequestMapping("/usuario")

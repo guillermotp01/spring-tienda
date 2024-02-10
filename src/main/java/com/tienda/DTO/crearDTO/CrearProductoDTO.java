@@ -1,13 +1,13 @@
-package com.tienda.records.productos;
+package com.tienda.DTO.crearDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-
 import java.util.Map;
 
-public record CrearProducto(
+public record CrearProductoDTO(
         @NotBlank String nombre,
         @NotBlank String descripcion,
-        @NotNull Map<String, CrearTalla> tallas) {
+        @NotNull Map<String, CrearExistenciaDTO> existencia
+    ) {
 }

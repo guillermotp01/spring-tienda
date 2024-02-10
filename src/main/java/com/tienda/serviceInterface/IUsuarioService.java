@@ -1,4 +1,4 @@
-package com.tienda.service;
+package com.tienda.serviceInterface;
 
 import java.util.List;
 

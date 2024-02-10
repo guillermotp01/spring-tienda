@@ -1,13 +1,13 @@
 package com.tienda.model;
 
-import com.tienda.records.productos.CrearProducto;
-import com.tienda.records.productos.CrearTalla;
+
+import com.tienda.DTO.crearDTO.CrearExistenciaDTO;
+import com.tienda.DTO.crearDTO.CrearProductoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -17,33 +17,45 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "idProducto")
-@ToString
 public class Producto {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_producto")
-	private String idProducto;
 
-	@Column(length = 200,nullable = false)
-	private String nombre;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private BigInteger idProducto;
 
-	@Column(length = 254,nullable = false)
-	private String descripcion;
+    @Column(name = "nombre_producto", length = 200, nullable = false)
+    private String nombre;
 
-	@OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
-	private Map<String, Talla> tallas;
+    @Column(name = "descripcion_producto",length = 254,nullable = false)
+    private String descripcion;
 
-	public  Producto(CrearProducto datos){
-		this.nombre = datos.nombre();
-		this.descripcion = datos.descripcion();
-		this.tallas = new HashMap<>();
+    @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL)
+    @MapKeyColumn(name = "talla")
+    private Map<String,Existencia> existencia;
 
-		for (Map.Entry<String, CrearTalla> elemento: datos.tallas().entrySet()) {
-			this.tallas.put(
-					elemento.getKey(),
-					new Talla(elemento.getValue(),
-					this)
-			);
-		}
-	}
+    public Producto(CrearProductoDTO crearProductoDTO) {
+        this.nombre = crearProductoDTO.nombre();
+        this.descripcion = crearProductoDTO.descripcion();
+        this.existencia = new HashMap<>();
+        StringBuilder key = new StringBuilder("");
+
+        for (Map.Entry<String, CrearExistenciaDTO> elemento:crearProductoDTO.existencia().entrySet()) {
+            key.append(elemento.getKey());
+            existencia.put(key.toString(), new Existencia(key.toString(),elemento.getValue(),this));
+            key.setLength(0);
+        }
+    }
+
+    public void actualizarDatos(CrearProductoDTO crearProductoDTO) {
+        this.nombre = crearProductoDTO.nombre();
+        this.descripcion = crearProductoDTO.descripcion();
+        this.existencia = new HashMap<>();
+        StringBuilder key = new StringBuilder("");
+
+        for (Map.Entry<String, CrearExistenciaDTO> elemento:crearProductoDTO.existencia().entrySet()) {
+            key.append(elemento.getKey());
+            existencia.put(key.toString(), new Existencia(key.toString(),elemento.getValue(),this));
+            key.setLength(0);
+        }
+    }
 }

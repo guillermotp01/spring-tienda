@@ -1,4 +1,4 @@
-package com.tienda.service.impl;
+package com.tienda.serviceInterface.impl;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tienda.model.dao.UsuarioDao;
 import com.tienda.model.dto.UsuarioDto;
 import com.tienda.model.entity.Usuario;
-import com.tienda.service.IUsuarioService;
+import com.tienda.serviceInterface.IUsuarioService;
 
 
 

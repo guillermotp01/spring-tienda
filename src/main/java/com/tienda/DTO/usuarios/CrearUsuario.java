@@ -1,4 +1,4 @@
-package com.tienda.records.usuarios;
+package com.tienda.DTO.usuarios;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

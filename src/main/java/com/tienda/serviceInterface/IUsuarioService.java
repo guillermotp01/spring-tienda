@@ -9,13 +9,15 @@ import com.tienda.model.entity.Usuario;
 
 public interface IUsuarioService {
 
-    List<Usuario> Listar();
+    public List<Usuario> Listar();
 
-    Usuario  Guardar(UsuarioDto  Usuario);
+    public Usuario Guardar(UsuarioDto  Usuario);
 
-    Usuario  ListarId(Integer id);
+    public Usuario Actualizar(UsuarioDto Usuario, Integer id);
 
-    void Eliminar(Usuario  Usuario);
+    public Usuario ListarId(Integer id);
+
+    public void Eliminar(Usuario  Usuario);
     
-    boolean ExisteId(Integer id);
+    public boolean ExisteId(Integer id);
 }

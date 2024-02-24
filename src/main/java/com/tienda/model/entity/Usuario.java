@@ -24,11 +24,9 @@ import lombok.ToString;
 
 public class Usuario implements Serializable {
 
-    //varibles dentro de la bd 
     @Id
     @Column(name = "id_usuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer idUsuario;
 
     @Column(name = "nombre")

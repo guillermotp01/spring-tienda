@@ -1,9 +1,9 @@
 package com.tienda.DTO.listarDTO;
 
-import com.tienda.model.Producto;
-
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.tienda.model.entity.Producto;
 
 public record ListarProductoDTO(
         String nombre,

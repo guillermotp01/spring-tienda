@@ -3,14 +3,11 @@ package com.tienda.serviceInterface;
 import com.tienda.model.dto.ProductoDto;
 import com.tienda.model.entity.Producto;
 
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface IProductoService {
-
-    public List<ProductoDto> obtenerProductos();
     
-    public List<Producto> Listar();
+    public Page<ProductoDto> Listar(int page, int size);
 
     public Producto Guardar(ProductoDto productoDto);
 

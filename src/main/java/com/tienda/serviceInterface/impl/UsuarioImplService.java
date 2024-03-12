@@ -1,7 +1,9 @@
 package com.tienda.serviceInterface.impl;
 
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,8 @@ import com.tienda.model.dto.UsuarioDto;
 import com.tienda.model.entity.Usuario;
 import com.tienda.serviceInterface.IUsuarioService;
 
-
 @Service
-public class UsuarioImplService implements IUsuarioService{
+public class UsuarioImplService implements IUsuarioService {
 
     @Autowired
     private UsuarioDao usuarioDao;
@@ -22,14 +23,20 @@ public class UsuarioImplService implements IUsuarioService{
     @SuppressWarnings("null")
     @Transactional
     @Override
-    public Usuario Guardar(UsuarioDto  usuarioDto) {
+    public Usuario Guardar(UsuarioDto usuarioDto) {
         Usuario usuario = Usuario.builder()
-            .idUsuario(usuarioDto.getIdUsuario())
-            .nombre(usuarioDto.getNombre())
-            .correo(usuarioDto.getCorreo())
-            .password(usuarioDto.getPassword())
-            .build();
+                .idUsuario(usuarioDto.getIdUsuario())
+                .nombre(usuarioDto.getNombre())
+                .correo(usuarioDto.getCorreo())
+                .password(usuarioDto.getPassword())
+                .build();
         return usuarioDao.save(usuario);
+    }
+
+    @Override
+    public Page<Usuario> Listar(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return usuarioDao.findAll(pageRequest);
     }
 
     @SuppressWarnings("null")
@@ -37,7 +44,7 @@ public class UsuarioImplService implements IUsuarioService{
     @Override
     public Usuario Actualizar(UsuarioDto usuarioDto, Integer id) {
         Optional<Usuario> usuarioOptional = usuarioDao.findById(id);
-    
+
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
             usuario.setNombre(usuarioDto.getNombre());
@@ -48,7 +55,7 @@ public class UsuarioImplService implements IUsuarioService{
             return null;
         }
     }
-    
+
     @SuppressWarnings("null")
     @Transactional(readOnly = true)
     @Override
@@ -59,7 +66,7 @@ public class UsuarioImplService implements IUsuarioService{
     @SuppressWarnings("null")
     @Transactional
     @Override
-    public void Eliminar(Usuario  usuario) {
+    public void Eliminar(Usuario usuario) {
         usuarioDao.delete(usuario);
     }
 
@@ -69,8 +76,5 @@ public class UsuarioImplService implements IUsuarioService{
         return usuarioDao.existsById(id);
     }
 
-    @Override
-    public List<Usuario> Listar() {
-        return (List<Usuario>)usuarioDao.findAll();
-    }
+
 }

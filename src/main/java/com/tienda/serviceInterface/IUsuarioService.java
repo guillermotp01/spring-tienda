@@ -1,6 +1,6 @@
 package com.tienda.serviceInterface;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import com.tienda.model.dto.UsuarioDto;
 import com.tienda.model.entity.Usuario;
@@ -9,7 +9,7 @@ import com.tienda.model.entity.Usuario;
 
 public interface IUsuarioService {
 
-    public List<Usuario> Listar();
+    public Page<Usuario> Listar(int page, int size);
 
     public Usuario Guardar(UsuarioDto  Usuario);
 

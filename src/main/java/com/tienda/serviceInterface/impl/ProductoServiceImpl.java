@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -133,8 +136,7 @@ public class ProductoServiceImpl implements IProductoService {
         } else {
             return null;
         }
-    }
-
+    } 
 
     @SuppressWarnings("null")
     @Transactional(readOnly = true)
@@ -157,19 +159,13 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     @Override
-    public List<Producto> Listar() {
-        return (List<Producto>) productoDao.findAll();
+    @Transactional(readOnly = true)
+    public Page<ProductoDto> Listar(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Producto> productosPage = productoDao.findAll(pageRequest);
+        return productosPage.map(this::convertirAProductoDto);
     }
 
-    // creando un metodo para unir el dto de producto y el dto de talla, para que me
-    // pueda mostrar el producto junto a sus tallas
-    @Override
-    public List<ProductoDto> obtenerProductos() {
-        List<Producto> productos = productoDao.findAll();
-        return convertirAProductoDto(productos);
-    }
-
-    // Crear un nuevo método para convertir ColorProducto a DTO
     private ColorProductoDto convertirAColorProductoDto(ColorProducto color) {
         return ColorProductoDto.builder()
                 .idColor(color.getIdColor())
@@ -178,22 +174,18 @@ public class ProductoServiceImpl implements IProductoService {
                 .build();
     }
 
-    // Actualizar el método convertirAProductoDto para utilizar el nuevo método
-    private List<ProductoDto> convertirAProductoDto(List<Producto> productos) {
-        return productos.stream()
-                .map(producto -> ProductoDto.builder()
-                        .idProducto(producto.getIdProducto())
-                        .nombre(producto.getNombre())
-                        .descripcion(producto.getDescripcion())
-                        .precio(producto.getPrecio())
-                        .colores(producto.getColores().stream()
-                                .map(this::convertirAColorProductoDto)
-                                .collect(Collectors.toList()))
-                        .build())
-                .collect(Collectors.toList());
+    private ProductoDto convertirAProductoDto(Producto producto) {
+        return ProductoDto.builder()
+                .idProducto(producto.getIdProducto())
+                .nombre(producto.getNombre())
+                .descripcion(producto.getDescripcion())
+                .precio(producto.getPrecio())
+                .colores(producto.getColores().stream()
+                        .map(this::convertirAColorProductoDto)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
-    // convertir talla a dto
     private List<TallaProductoDto> convertirATallaProductoDto(List<TallaProducto> tallas) {
         return tallas.stream()
                 .map(talla -> TallaProductoDto.builder()
@@ -203,4 +195,5 @@ public class ProductoServiceImpl implements IProductoService {
                         .build())
                 .collect(Collectors.toList());
     }
+
 }

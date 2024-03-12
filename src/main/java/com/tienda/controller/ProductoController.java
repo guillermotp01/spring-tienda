@@ -5,10 +5,10 @@ import com.tienda.model.entity.Producto;
 import com.tienda.model.payload.mensajeResponse;
 import com.tienda.serviceInterface.IProductoService;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +22,12 @@ public class ProductoController {
     @Autowired
     private IProductoService productoService;
 
+
     @GetMapping("/listarProducto")
-    public ResponseEntity<List<ProductoDto>> listarProductos() {
-        List<ProductoDto> productos = productoService.obtenerProductos();
-        return new ResponseEntity<>(productos, HttpStatus.OK);
+    public ResponseEntity<Page<ProductoDto>> list(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "2") int size) {
+        var result = productoService.Listar(page, size);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/registrarProducto")
@@ -37,8 +39,7 @@ public class ProductoController {
                     .mensaje("Guardado Correctamente");
         }
         return new ResponseEntity<>(productoSave, HttpStatus.OK);
-    }                  
-
+    }
 
     @PutMapping("/actualizarProducto/{id}")
     public ResponseEntity<Producto> update(@RequestBody ProductoDto productoDto, @PathVariable Integer id) {

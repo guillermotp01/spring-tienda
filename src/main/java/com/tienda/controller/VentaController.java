@@ -13,7 +13,6 @@ import com.tienda.serviceInterface.IVentaService;
 
 @RestController
 @RequestMapping("/ventas")
-@CrossOrigin("*")
 
 public class VentaController {
 

@@ -1,33 +1,51 @@
 package com.tienda.controller;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-import com.tienda.model.dto.UsuarioDto;
+import com.tienda.model.entity.Rol;
 import com.tienda.model.entity.Usuario;
+import com.tienda.model.entity.UsuarioRol;
 import com.tienda.model.payload.mensajeResponse;
-import com.tienda.serviceInterface.IUsuarioService;
+import com.tienda.servicios.UsuarioService;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 @CrossOrigin("*")
 public class UsuarioController {
 
+        //@Autowired
+        //private BCryptPasswordEncoder bCryptPasswordEncoder;
+
         @Autowired
-        private IUsuarioService usuarioService;
+        private UsuarioService usuarioService;
+
+        @PostMapping("/")
+        public Usuario guardarUsuario(@RequestBody Usuario usuario) throws Exception {
+                usuario.setPerfil("default.png");
+
+                //usuario.setPassword(this.bCryptPasswordEncoder.encode(usuario.getPassword()));
+                Set<UsuarioRol> usuarioRoles = new HashSet<>();
+
+                Rol rol = new Rol();
+                rol.setRolId(2L);
+                rol.setRolNombre("NORMAL");
+
+                UsuarioRol usuarioRol = new UsuarioRol();
+                usuarioRol.setUsuario(usuario);
+                usuarioRol.setRol(rol);
+
+                usuarioRoles.add(usuarioRol);
+                return usuarioService.guardarUsuario(usuario, usuarioRoles);
+        }
+
 
         @GetMapping("/listarUsuarios")
         public ResponseEntity<Page<Usuario>> list(@RequestParam(defaultValue = "0") int page,
@@ -36,20 +54,10 @@ public class UsuarioController {
                 return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
-        @PostMapping("/registrarUsuario")
-        public ResponseEntity<Usuario> save(@RequestBody UsuarioDto usuarioDto) {
-                Usuario usuarioSave = null;
-                usuarioSave = usuarioService.Guardar(usuarioDto);
-                if (usuarioSave != null) {
-                        mensajeResponse.builder()
-                                        .mensaje("Guardado Correctamente");
-                }
-                return new ResponseEntity<>(usuarioSave, HttpStatus.OK);
-        }
 
         @PutMapping("/actualizarUsuario/{id}")
-        public ResponseEntity<?> update(@RequestBody UsuarioDto usuarioDTO, @PathVariable Integer id) {
-                Usuario usuarioUpdate = usuarioService.Actualizar(usuarioDTO, id);
+        public ResponseEntity<?> update(@RequestBody Usuario user, @PathVariable Long id) {
+                Usuario usuarioUpdate = usuarioService.Actualizar(user, id);
 
                 if (usuarioUpdate != null) {
                         mensajeResponse.builder()
@@ -58,44 +66,13 @@ public class UsuarioController {
                 return new ResponseEntity<>(usuarioUpdate, HttpStatus.OK);
         }
 
-        @DeleteMapping("/eliminarUsuario/{id}")
-        public ResponseEntity<?> delete(@PathVariable Integer id) { // ResponseEntity maneja todas las respuestas HTTP
-                try {
-                        Usuario usuarioDelete = usuarioService.ListarId(id);
-                        usuarioService.Eliminar(usuarioDelete);
-                        return new ResponseEntity<>(usuarioDelete, HttpStatus.NO_CONTENT);
-                } catch (DataAccessException exDT) {
-                        return new ResponseEntity<>(
-                                        mensajeResponse.builder()
-                                                        .mensaje(exDT.getMessage())
-                                                        .object(null)
-                                                        .build(),
-                                        HttpStatus.METHOD_NOT_ALLOWED);
-                }
+        @GetMapping("/{username}")
+        public Usuario obtenerUsuario(@PathVariable("username") String username) {
+                return usuarioService.obtenerUsuario(username);
         }
 
-        @GetMapping("/consultarUsuario/{id}")
-        public ResponseEntity<?> showById(@PathVariable Integer id) {
-                Usuario usuario = usuarioService.ListarId(id);
-
-                if (usuario == null) {
-                        return new ResponseEntity<>(
-                                        mensajeResponse.builder()
-                                                        .mensaje("El registro no existe!!")
-                                                        .object(null)
-                                                        .build(),
-                                        HttpStatus.NOT_FOUND);
-                }
-                return new ResponseEntity<>(
-                                mensajeResponse.builder()
-                                                .mensaje("Consulta Exitosa")
-                                                .object(UsuarioDto.builder()
-                                                                .idUsuario(usuario.getIdUsuario())
-                                                                .nombre(usuario.getNombre())
-                                                                .correo(usuario.getCorreo())
-                                                                .password(usuario.getPassword())
-                                                                .build())
-                                                .build(),
-                                HttpStatus.OK);
+        @DeleteMapping("/{usuarioId}")
+        public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId) {
+                usuarioService.eliminarUsuario(usuarioId);
         }
 }
